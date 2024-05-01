@@ -1,0 +1,98 @@
+{
+    "intents": [
+      {
+        "tag": "greetings",
+        "patterns": [
+          "hello",
+          "hi",
+          "hey there",
+          "good morning",
+          "good afternoon",
+          "good evening",
+          "welcome"
+        ],
+        "responses": [
+          "Hello! 👋 How can I help you plan your trip today?",
+          "Hi there! 😄  Looking forward to assisting you with your travel needs.",
+          "Welcome! What can I do for you on Tripadvisor?"
+        ]
+      },
+      {
+        "tag": "goodbyes",
+        "patterns": [
+          "goodbye",
+          "bye",
+          "see you later",
+          "talk to you soon",
+          "have a good day"
+        ],
+        "responses": [
+          "Goodbye! 👋  Have a wonderful trip!",
+          "See you later! 😄  Safe travels.",
+          "Take care!  Hope you have a fantastic journey."
+        ]
+      },
+      {
+        "tag": "find_restaurants",
+        "patterns": [
+          "find restaurants",
+          "looking for a restaurant",
+          "recommend restaurants",
+          "where to eat",
+          "any good restaurants nearby"
+        ],
+        "responses": [
+          "Absolutely! What kind of cuisine are you interested in?",
+          "Sure, I can help you find restaurants. Do you have a specific area in mind?",
+          "What price range are you looking for? I can suggest some options."
+        ]
+      },
+      {
+        "tag": "find_hotels",
+        "patterns": [
+          "find hotels",
+          "looking for a hotel",
+          "recommend hotels",
+          "where to stay",
+          "any good hotels nearby"
+        ],
+        "responses": [
+          "Of course! What type of accommodation are you interested in (hotel, hostel, etc.)?",
+          "Happy to help! Do you have a preferred location or budget for your hotel?",
+          "What amenities are important to you (pool, gym, etc.)? I can narrow down the options."
+        ]
+      },
+      {
+        "tag": "find_attractions",
+        "patterns": [
+          "find attractions",
+          "looking for things to do",
+          "recommend attractions",
+          "what to see",
+          "any interesting places to visit"
+        ],
+        "responses": [
+          "Sure, what kind of attractions are you interested in (museums, historical sites, etc.)?",
+          "Absolutely! Are you looking for something family-friendly or more adult-oriented?",
+          "Do you have any specific interests or themes in mind? This will help me provide tailored recommendations."
+        ]
+      },
+      {
+        "tag": "general_help",
+        "patterns": [
+          "help",
+          "what can you do",
+          "what are your capabilities",
+          "how can you help me",
+          "need assistance"
+        ],
+        "responses": [
+          "I'm your Tripadvisor chatbot, here to help you plan your trip! 😊",
+          "Ask me anything about Tripadvisor or planning your next adventure.",
+          "I can help you find places to stay, eat, and things to do. I can also assist with reviews and itinerary building.",
+          "Just let me know what you need, and I'll do my best to assist you."
+        ]
+      }
+    ]
+  }
+  
