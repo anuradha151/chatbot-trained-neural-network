@@ -1,8 +1,11 @@
-import random
-import json
-import pickle
-import numpy as np
+from typing import Union
 
-import nltk
-nltk.download('punkt')
-from nltk.stem import WordNetLemmatizer
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/")
+def read_root():
+    return {"Hello": "Chatbot World"}
+
