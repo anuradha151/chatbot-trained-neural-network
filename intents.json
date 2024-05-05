@@ -33,7 +33,7 @@
         ]
       },
       {
-        "tag": "find_restaurants",
+        "tag": "restaurants",
         "patterns": [
           "find restaurants",
           "looking for a restaurant",
@@ -48,7 +48,7 @@
         ]
       },
       {
-        "tag": "find_hotels",
+        "tag": "hotels",
         "patterns": [
           "find hotels",
           "looking for a hotel",
@@ -63,7 +63,7 @@
         ]
       },
       {
-        "tag": "find_attractions",
+        "tag": "attractions",
         "patterns": [
           "find attractions",
           "looking for things to do",

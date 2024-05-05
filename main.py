@@ -1,12 +1,12 @@
 from typing import Union
 
 from fastapi import FastAPI
-from chatbot import chat
+from chatbot
 
 app = FastAPI()
 
 
 @app.get("/")
 def read_root():
-    return chat()
+    return "Hellow Chatterbot!"
 
