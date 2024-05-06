@@ -1,12 +1,17 @@
 from typing import Union
 
 from fastapi import FastAPI
-from chatbot
+from training import train
+from chatbot import chat
 
 app = FastAPI()
 
+@app.get("/train")
+def train_model():
+    return train()
 
-@app.get("/")
-def read_root():
-    return "Hellow Chatterbot!"
+
+@app.get("/chat/{message}")
+def read_root(message):
+    return chat(message)
 
