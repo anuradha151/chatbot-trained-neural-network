@@ -13,7 +13,7 @@ intents = json.loads(open('intents.json').read())
 
 words = pickle.load(open('words.pkl', 'rb'))
 classes = pickle.load(open('classes.pkl', 'rb'))
-model = load_model('chatbotmodel.keras')  #The output will be numerical data
+model = load_model('chatbotmodel.h5')  #The output will be numerical data
 
 #Clean up the sentences
 def clean_up_sentence(sentence):
@@ -34,13 +34,19 @@ def bag_of_words(sentence):
 def predict_class(sentence):
     bow = bag_of_words(sentence) #bow: Bag Of Words, feed the data into the neural network
     res = model.predict(np.array([bow]))[0] #res: result. [0] as index 0
+
+    print("res: ", res)
+
     ERROR_THRESHOLD = 0.25
     results = [[i,r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
 
     results.sort(key=lambda x: x[1], reverse=True)
+
+    print("classes: ", classes)
+    print("results: ", results)
+
     return_list = []
     for r in results:
-        print('r: ', r)
         return_list.append({'intent': classes[r[0]], 'probability': str(r[1])})
     return return_list
 
@@ -48,12 +54,15 @@ def get_response(intents_list):
     tag = intents_list[0]['intent']
     list_of_intents = intents['intents']
     for i in list_of_intents:
+        print("tag: ", tag)    
         if i['tag'] == tag:
             result = random.choice(i['responses'])
             break
     return result
 
 def chat(message):
-    intents_list = predict_class(message)
-    result = get_response(intents_list)
-    return result
+    ints = predict_class(message)
+
+    print("ints: ", ints)
+
+    return get_response(ints)
