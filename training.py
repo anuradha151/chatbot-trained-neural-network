@@ -47,8 +47,8 @@ def train():
 
     classes = sorted(set(classes))
 
-    pickle.dump(words, open('../generated/words.pkl', 'wb'))
-    pickle.dump(classes, open('../generated/classes.pkl', 'wb'))
+    pickle.dump(words, open('generated/words.pkl', 'wb'))
+    pickle.dump(classes, open('generated/classes.pkl', 'wb'))
 
 
     training = []
@@ -100,5 +100,5 @@ def train():
     
 
     hist = model.fit(np.array(train_x), np.array(train_y), epochs = 200, batch_size=5, verbose=1)
-    model.save('../generated/chatbotmodel.keras', hist) #save the training data into a h5 file... I think?
+    model.save('generated/chatbotmodel.keras', hist) #save the training data into a h5 file... I think?
     return {'message': 'Model trained successfully!'}

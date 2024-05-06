@@ -11,9 +11,9 @@ from tensorflow.keras.models import load_model
 lemmatizer = WordNetLemmatizer()
 intents = json.loads(open('resources/intents.json').read())
 
-words = pickle.load(open('../generated/words.pkl', 'rb'))
-classes = pickle.load(open('../generated/classes.pkl', 'rb'))
-model = load_model('../generated/chatbotmodel.keras')  #The output will be numerical data
+words = pickle.load(open('generated/words.pkl', 'rb'))
+classes = pickle.load(open('generated/classes.pkl', 'rb'))
+model = load_model('generated/chatbotmodel.keras')  #The output will be numerical data
 
 #Clean up the sentences
 def clean_up_sentence(sentence):
