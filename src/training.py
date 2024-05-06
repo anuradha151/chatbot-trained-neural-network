@@ -1,27 +1,22 @@
 import random
 import json
 import pickle
+import re
 import numpy as np
 
 import nltk
-#WordNetLemmatizer reduce the word to stem so that it wont loose performance
 
 from nltk.stem import WordNetLemmatizer
 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation, Dropout
+from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.optimizers import SGD
-
-
 
 def train():
     lemmatizer = WordNetLemmatizer()
 
-    intents = json.loads(open('intents.json').read())
-    #reading the json file as text
+    intents = json.loads(open('resources/intents.json').read())
 
-
-    #create 3 empty lists
     words = []
     classes = []
     documents = []
@@ -52,8 +47,8 @@ def train():
 
     classes = sorted(set(classes))
 
-    pickle.dump(words, open('words.pkl', 'wb'))
-    pickle.dump(classes, open('classes.pkl', 'wb'))
+    pickle.dump(words, open('../generated/words.pkl', 'wb'))
+    pickle.dump(classes, open('../generated/classes.pkl', 'wb'))
 
 
     training = []
@@ -105,5 +100,5 @@ def train():
     
 
     hist = model.fit(np.array(train_x), np.array(train_y), epochs = 200, batch_size=5, verbose=1)
-    model.save('chatbotmodel.keras', hist) #save the training data into a h5 file... I think?
-    print("Done")
+    model.save('../generated/chatbotmodel.keras', hist) #save the training data into a h5 file... I think?
+    return {'message': 'Model trained successfully!'}
