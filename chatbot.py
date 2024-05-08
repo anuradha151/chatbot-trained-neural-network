@@ -51,7 +51,7 @@ def get_response(intents_list):
         if i['tag'] == tag:
             result = random.choice(i['responses'])
             break
-    return result
+    return result 
 
 def chat(message):
     intents_list = predict_class(message)
