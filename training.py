@@ -1,7 +1,6 @@
 import random
 import json
 import pickle
-import re
 import numpy as np
 
 import nltk
