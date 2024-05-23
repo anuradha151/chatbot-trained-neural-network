@@ -1,0 +1,56 @@
+{
+  "intents": [
+    {
+      "tag": "greetings",
+      "patterns": [
+        "hello",
+        "hey",
+        "hi",
+        "good day",
+        "oi",
+        "what's up?"
+      ],
+      "responses": [
+        "Hello!",
+        "Hey!",
+        "What do you want?"
+      ]
+    },
+    {
+      "tag": "booking schedule",
+      "patterns": [
+        "I'd like to schedule booking",
+        "I want to hike",
+        "hike"
+      ],
+      "responses": [
+        "Here is the booking link"
+      ]
+    },
+    {
+      "tag": "promotions, sales, and packages",
+      "patterns": [
+        "Are there any promotions",
+        "promotions",
+        "sales",
+        "packages"
+      ],
+      "responses": [
+        "Yes we have promotions, take a loot at this."
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "goodbye",
+        "cya",
+        "so long",
+        "Live long and prosper"
+      ],
+      "responses": [
+        "I'm sad. Goodbye.",
+        "You're leaving me? WHY?!"
+      ]
+    }
+  ]
+}
