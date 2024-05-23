@@ -13,5 +13,11 @@ def train_model():
 
 @app.get("/chat/{message}")
 def read_root(message):
-    return chat(message)
+    response =  chat(message)
+    return {"message": response}
+
+
+@app.get("/messages")
+def messages():
+    return train()
 
