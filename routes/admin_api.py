@@ -2,7 +2,6 @@ from fastapi import Depends, APIRouter, HTTPException, FastAPI
 from schemas import Intent, IntentCreate
 from training import train
 from repository import find_all_intents, create_intent, find_by_tag
-from repository import * 
 from database import SessionLocal
 
 from sqlalchemy.orm import Session

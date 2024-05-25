@@ -1,17 +1,13 @@
-from typing import Union
-
 from fastapi import FastAPI
-from training import train
-from chatbot import chat
+
+from routes.admin_api import admin
+from routes.chatbot_api import chatbot
+
+from models import Base
+from database import engine
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
-@app.get("/train")
-def train_model():
-    return train()
-
-
-@app.get("/chat/{message}")
-def read_root(message):
-    return chat(message)
-
+app.include_router(admin)
+app.include_router(chatbot)
