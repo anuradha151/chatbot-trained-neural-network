@@ -1,3 +1,4 @@
+from os import link
 from pydantic import BaseModel
 
 # InputPattern 
@@ -36,12 +37,14 @@ class IntentBase(BaseModel):
     response_text: str
 
 class IntentCreate(IntentBase):
+    input_patterns: list[str] = []
+    response_links: list[str] = []
     pass
 
 class Intent(IntentBase):
     id: int
     input_patterns: list[InputPattern] = []
-    links: list[ResponseLink] = []
+    response_links: list[ResponseLink] = []
 
     class Config:
         orm_mode = True
