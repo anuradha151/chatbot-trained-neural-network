@@ -25,6 +25,7 @@ def create_intent_api(intent: IntentCreate, db: Session = Depends(get_db)):
     db_intent = find_by_tag(db, tag=intent.tag) 
     if db_intent:
         raise HTTPException(status_code=400, detail="Tag already created")
+    
     return create_intent(db=db, intent=intent)
 
 
