@@ -43,6 +43,14 @@ def update_intent_api(intent: IntentCreate, db: Session = Depends(get_db)):
 def find_all_intents_api(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return find_all_intents(db, skip=skip, limit=limit)
 
+@admin.get("/admin/intent/{tag}", response_model=Intent)
+def find_by_tag_api(tag: str, db: Session = Depends(get_db)):
+    db_intent = find_by_tag(db, tag=tag) 
+    if not db_intent:
+        raise HTTPException(status_code=404, detail="Tag not found")
+    
+    return db_intent
+
 
 @admin.delete("/admin/intent/delete/{tag}")
 def delete_intent_api(tag: str, db: Session = Depends(get_db)):
