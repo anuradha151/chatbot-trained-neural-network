@@ -18,3 +18,15 @@ def find_all_intents(db: Session, skip: int = 0, limit: int = 100):
 
 def find_by_tag(db: Session, tag: str):
     return db.query(Intent).filter(Intent.tag == tag).first()
+
+def delete_by_tag(db: Session, tag: str):
+    intent = db.query(Intent).filter(Intent.tag == tag).first()
+    if intent:
+        orphaned_patterns = db.query(InputPattern).filter(InputPattern.intent_id == intent.id).all()
+        for pattern in orphaned_patterns:
+            db.delete(pattern)
+        orphaned_links = db.query(ResponseLink).filter(ResponseLink.intent_id == intent.id).all()
+        for link in orphaned_links:
+            db.delete(link)     
+        db.delete(intent)
+        db.commit()
