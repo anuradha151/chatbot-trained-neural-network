@@ -7,9 +7,9 @@ import nltk
 
 from nltk.stem import WordNetLemmatizer
 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.models import Sequential                                                                                                      # type: ignore
+from tensorflow.keras.layers import Dense, Dropout                                                                                                  # type: ignore
+from tensorflow.keras.optimizers import SGD                                                                                                         # type: ignore
 
 def train():
     lemmatizer = WordNetLemmatizer()
@@ -21,13 +21,8 @@ def train():
     documents = []
     ignore_letters = ['?', '!', '.', ',']
 
-
-   
-    # How it works?:
-
     # Look inside the intents in the json file and through the patterns. Then,
     # append the words into the word list.
-   
     for intent in intents['intents']:
         for pattern in intent['patterns']:
             # tokenize = splits up sentences into words
@@ -82,8 +77,7 @@ def train():
     train_x = list(training[:, 0])
     train_y = list(training[:, 1])
 
-    model = Sequential() #sequential model
-    # 128 = Neurons  input_shape dependant on  the size of the training data of train_x
+    model = Sequential()
     model.add(Dense(128, input_shape=(len(train_x[0]),), activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(64, activation='relu'))
@@ -93,11 +87,9 @@ def train():
     sgd = SGD(learning_rate=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
-    
-    # model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
-    # model.save('chatbot_model.model')
-    
-
     hist = model.fit(np.array(train_x), np.array(train_y), epochs = 200, batch_size=5, verbose=1)
-    model.save('generated/chatbotmodel.keras', hist) #save the training data into a h5 file... I think?
+    model.save('generated/chatbotmodel.keras', hist) 
+
+
+    
     return {'message': 'Model trained successfully!'}
