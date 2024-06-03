@@ -2,6 +2,22 @@
 
 This repository contains Python code for building a chatbot that can understand user intents and generate appropriate responses. It leverages the power of TensorFlow and natural language processing (NLP) techniques.
 
+## Getting Started
+1. Activate virtual environment
+```zsh
+source venv/bin/activate
+```
+2. Install dependencies
+```zsh
+pip install -r requirements.txt
+```
+3. Start uvicorn server
+```zsh
+uvicorn main:app --reload
+```
+3. Open local API docs [http://localhost:8000/docs](http://localhost:5000/docs)
+
+
 **Key Features:**
 
 - **Intent Recognition:** Accurately classifies user input into predefined intents using a trained neural network model.
