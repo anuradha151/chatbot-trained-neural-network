@@ -29,7 +29,7 @@ class ResponseLink(Base):
     __tablename__ = "response_links"
 
     id = Column(Integer, primary_key=True)
-    text = Column(String, index=True)
+    url = Column(String, index=True)
     intent_id = Column(Integer, ForeignKey("intents.id"))
 
     intent = relationship("Intent", back_populates="response_links")

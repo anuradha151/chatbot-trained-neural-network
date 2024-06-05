@@ -18,7 +18,7 @@ class InputPattern(InputPatternBase):
 
 # ResponseLink
 class ResponseLinkBase(BaseModel):
-    text: str
+    url: str
 
 class ResponseLinkCreate(ResponseLinkBase):
     pass
