@@ -48,3 +48,6 @@ class Intent(IntentBase):
 
     class Config:
         orm_mode = True
+
+class IntentResponse(IntentCreate):
+    id: int

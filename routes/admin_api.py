@@ -1,5 +1,6 @@
+from re import I
 from fastapi import Depends, APIRouter, HTTPException, FastAPI
-from schemas import Intent, IntentCreate
+from schemas import Intent, IntentCreate, IntentResponse
 from training import train
 from repository import find_all_intents, create_intent, find_by_tag, delete_by_tag
 from database import SessionLocal
@@ -8,16 +9,12 @@ from sqlalchemy.orm import Session
 
 admin = APIRouter()
 
-
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-
-# model apis
-
 
 @admin.get("/admin/model/train")
 def train_model():
@@ -43,13 +40,13 @@ def update_intent_api(intent: IntentCreate, db: Session = Depends(get_db)):
     return create_intent(db=db, intent=intent)
 
 
-@admin.get("/admin/intents", response_model=list[IntentCreate])
+@admin.get("/admin/intents", response_model=list[IntentResponse])
 def find_all_intents_api(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     db_intents = find_all_intents(
         db, skip=skip, limit=limit)  
 
     return [
-        IntentCreate(
+        IntentResponse(
             id=intent.id,
             tag=intent.tag,
             response_text=intent.response_text,
@@ -67,7 +64,6 @@ def find_by_tag_api(tag: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Tag not found")
 
     return IntentCreate(
-        id=db_intent.id,
         tag=db_intent.tag,
         response_text=db_intent.response_text,
         input_patterns=[pattern.text for pattern in db_intent.input_patterns],
