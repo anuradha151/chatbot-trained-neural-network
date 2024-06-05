@@ -18,7 +18,7 @@ class InputPattern(InputPatternBase):
 
 # ResponseLink
 class ResponseLinkBase(BaseModel):
-    text: str
+    url: str
 
 class ResponseLinkCreate(ResponseLinkBase):
     pass
@@ -48,3 +48,6 @@ class Intent(IntentBase):
 
     class Config:
         orm_mode = True
+
+class IntentResponse(IntentCreate):
+    id: int
