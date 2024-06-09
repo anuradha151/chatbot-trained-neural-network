@@ -1,13 +1,14 @@
-from re import I
 from fastapi import Depends, APIRouter, HTTPException, FastAPI
 from schemas import Intent, IntentCreate, IntentResponse
 from training import train
+from chatbot import deploy_model
 from repository import find_all_intents, create_intent, find_by_tag, delete_by_tag
 from database import SessionLocal
 
 from sqlalchemy.orm import Session
 
 admin = APIRouter()
+
 
 def get_db():
     db = SessionLocal()
@@ -16,9 +17,17 @@ def get_db():
     finally:
         db.close()
 
+
 @admin.get("/admin/model/train")
-def train_model():
-    return train()
+def train_model(db: Session = Depends(get_db)):
+    return train(db)
+
+
+@admin.get("/admin/model/train/deploy")
+def train_model(db: Session = Depends(get_db)):
+    train(db)
+    deploy_model()
+    return {"message": "New model deployed successfully"}
 
 
 @admin.post("/admin/intent/create", response_model=Intent)
@@ -43,7 +52,7 @@ def update_intent_api(intent: IntentCreate, db: Session = Depends(get_db)):
 @admin.get("/admin/intents", response_model=list[IntentResponse])
 def find_all_intents_api(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     db_intents = find_all_intents(
-        db, skip=skip, limit=limit)  
+        db, skip=skip, limit=limit)
 
     return [
         IntentResponse(
@@ -56,6 +65,7 @@ def find_all_intents_api(skip: int = 0, limit: int = 100, db: Session = Depends(
         )
         for intent in db_intents
     ]
+
 
 @admin.get("/admin/intent/{tag}", response_model=IntentCreate)
 def find_by_tag_api(tag: str, db: Session = Depends(get_db)):

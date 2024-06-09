@@ -1,12 +1,16 @@
 from os import link
 from pydantic import BaseModel
 
-# InputPattern 
+# InputPattern
+
+
 class InputPatternBase(BaseModel):
     text: str
 
+
 class InputPatternCreate(InputPatternBase):
     pass
+
 
 class InputPattern(InputPatternBase):
     id: int
@@ -20,8 +24,10 @@ class InputPattern(InputPatternBase):
 class ResponseLinkBase(BaseModel):
     url: str
 
+
 class ResponseLinkCreate(ResponseLinkBase):
     pass
+
 
 class ResponseLink(ResponseLinkBase):
     id: int
@@ -36,10 +42,12 @@ class IntentBase(BaseModel):
     tag: str
     response_text: str
 
+
 class IntentCreate(IntentBase):
     input_patterns: list[str] = []
     response_links: list[str] = []
     pass
+
 
 class Intent(IntentBase):
     id: int
@@ -49,5 +57,16 @@ class Intent(IntentBase):
     class Config:
         orm_mode = True
 
+
 class IntentResponse(IntentCreate):
     id: int
+
+
+class IntentTrainData(BaseModel):
+    tag: str
+    patterns: list[str] = []
+
+
+class ChatResponse(BaseModel):
+    response_text: str
+    response_links: list[str] = []

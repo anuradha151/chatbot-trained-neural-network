@@ -7,36 +7,66 @@ import nltk
 
 from nltk.stem import WordNetLemmatizer
 
-from tensorflow.keras.models import Sequential                                                                                                      # type: ignore
-from tensorflow.keras.layers import Dense, Dropout                                                                                                  # type: ignore
-from tensorflow.keras.optimizers import SGD                                                                                                         # type: ignore
+# type: ignore
+from tensorflow.keras.models import Sequential
+# type: ignore
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.optimizers import SGD
 
-def train():
+# type: ignore
+from repository import find_all_intents_for_train
+from sqlalchemy.orm import Session
+
+
+def train(db: Session):
     lemmatizer = WordNetLemmatizer()
 
-    intents = json.loads(open('resources/intents.json').read())
+    # TODO - remove intents.json usage for model training. Use db approach
+    # intents = json.loads(open('resources/intents.json').read())
+    # print("intents: ", intents['intents'])
+
+    intents = find_all_intents_for_train(db)
+    # print("intents_db: ", intents_db)
 
     words = []
     classes = []
     documents = []
     ignore_letters = ['?', '!', '.', ',']
 
-    # Look inside the intents in the json file and through the patterns. Then,
-    # append the words into the word list.
-    for intent in intents['intents']:
-        for pattern in intent['patterns']:
+    # TODO - remove intents.json usage for model training. Use db approach
+    # # Look inside the intents in the json file and through the patterns. Then,
+    # # append the words into the word list.
+    # for intent in intents['intents']:
+    #     for pattern in intent['patterns']:
+    #         # tokenize = splits up sentences into words
+    #         word_list = nltk.word_tokenize(pattern)
+    #         words.extend(word_list)
+    #         # (word_list) is a tuple. Tuple: stores multiple items into a single variable
+    #         # (word_list) belongs to the category intent['tag']
+    #         documents.append((word_list, intent['tag']))
+
+    #         # check if the class is in the classes list
+    #         if intent['tag'] not in classes:
+    #             classes.append(intent['tag'])
+
+    # # print("words: ", words[0])
+    # print("documents: ", documents[0])
+
+    for intent in intents:
+        for pattern in intent.patterns:
             # tokenize = splits up sentences into words
             word_list = nltk.word_tokenize(pattern)
             words.extend(word_list)
-            #(word_list) is a tuple. Tuple: stores multiple items into a single variable
-            #(word_list) belongs to the category intent['tag']
-            documents.append((word_list, intent['tag']))
+            # (word_list) is a tuple. Tuple: stores multiple items into a single variable
+            # (word_list) belongs to the category intent['tag']
+            documents.append((word_list, intent.tag))
 
-            #check if the class is in the classes list
-            if intent['tag'] not in classes:
-                classes.append(intent['tag'])
-
-    words = [lemmatizer.lemmatize(word) for word in words if word not in ignore_letters]
+            # check if the class is in the classes list
+            if intent.tag not in classes:
+                classes.append(intent.tag)
+    
+    words = [lemmatizer.lemmatize(word)
+             for word in words if word not in ignore_letters]
     words = sorted(set(words))
 
     classes = sorted(set(classes))
@@ -44,14 +74,14 @@ def train():
     pickle.dump(words, open('generated/words.pkl', 'wb'))
     pickle.dump(classes, open('generated/classes.pkl', 'wb'))
 
-
     training = []
     output_empty = [0] * len(classes)
 
     for document in documents:
         bag = []
         word_patterns = document[0]
-        word_patterns = [lemmatizer.lemmatize(word.lower()) for word in word_patterns]
+        word_patterns = [lemmatizer.lemmatize(
+            word.lower()) for word in word_patterns]
         for word in words:
             bag.append(1) if word in word_patterns else bag.append(0)
 
@@ -59,7 +89,7 @@ def train():
         output_row[classes.index(document[1])] = 1
 
         training.append([bag, output_row])
-    
+
     max_length = max(len(x) for x, y in training)
 
     for i, (x, y) in enumerate(training):
@@ -69,8 +99,9 @@ def train():
         padding_length = max_length - len(y)
         if padding_length > 0:
             y = y + [0] * padding_length
-        training[i] = (x, y)  # Update the training list with the padded elements
-   
+        # Update the training list with the padded elements
+        training[i] = (x, y)
+
     random.shuffle(training)
     training = np.array(training)
 
@@ -88,8 +119,6 @@ def train():
     model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
     hist = model.fit(np.array(train_x), np.array(train_y), epochs = 200, batch_size=5, verbose=1)
-    model.save('generated/chatbotmodel.keras', hist) 
+    model.save('generated/chatbotmodel.keras', hist)
 
-
-    
     return {'message': 'Model trained successfully!'}
