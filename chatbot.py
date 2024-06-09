@@ -15,6 +15,18 @@ words = pickle.load(open('generated/words.pkl', 'rb'))
 classes = pickle.load(open('generated/classes.pkl', 'rb'))
 model = load_model('generated/chatbotmodel.keras')  #The output will be numerical data
 
+def deploy_model():
+
+    global intents
+    global words
+    global classes
+    global model
+
+    intents = json.loads(open('resources/intents.json').read())
+    words = pickle.load(open('generated/words.pkl', 'rb'))
+    classes = pickle.load(open('generated/classes.pkl', 'rb'))
+    model = load_model('generated/chatbotmodel.keras')  #The output will be numerical data
+
 #Clean up the sentences
 def clean_up_sentence(sentence):
     sentence_words = nltk.word_tokenize(sentence)
