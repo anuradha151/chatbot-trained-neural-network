@@ -1,5 +1,3 @@
-from re import I
-import re
 from fastapi import Depends, APIRouter, HTTPException, FastAPI
 from schemas import Intent, IntentCreate, IntentResponse
 from training import train
@@ -21,8 +19,8 @@ def get_db():
 
 
 @admin.get("/admin/model/train")
-def train_model():
-    return train()
+def train_model(db: Session = Depends(get_db)):
+    return train(db)
 
 
 @admin.get("/admin/model/train/deploy")
