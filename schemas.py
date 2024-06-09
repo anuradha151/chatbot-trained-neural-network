@@ -65,3 +65,8 @@ class IntentResponse(IntentCreate):
 class IntentTrainData(BaseModel):
     tag: str
     patterns: list[str] = []
+
+
+class ChatResponse(BaseModel):
+    response_text: str
+    response_links: list[str] = []

@@ -41,7 +41,6 @@ def delete_by_tag(db: Session, tag: str):
         db.delete(intent)
         db.commit()
 
-
 def find_all_intents_for_train(db: Session):
     intents = db.query(Intent).all()
     return [

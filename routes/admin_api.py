@@ -24,8 +24,8 @@ def train_model(db: Session = Depends(get_db)):
 
 
 @admin.get("/admin/model/train/deploy")
-def train_model():
-    train()
+def train_model(db: Session = Depends(get_db)):
+    train(db)
     deploy_model()
     return {"message": "New model deployed successfully"}
 
