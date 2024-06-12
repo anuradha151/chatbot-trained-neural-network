@@ -13,8 +13,6 @@ from schemas import ChatResponse
 
 
 lemmatizer = WordNetLemmatizer()
-# TODO - remove intents.json usage for model training. Use db approach
-# intents = json.loads(open('resources/intents.json').read())
 
 words = pickle.load(open('generated/words.pkl', 'rb'))
 classes = pickle.load(open('generated/classes.pkl', 'rb'))
@@ -36,16 +34,12 @@ def deploy_model():
     model = load_model('generated/chatbotmodel.keras')
 
 # Clean up the sentences
-
-
 def clean_up_sentence(sentence):
     sentence_words = nltk.word_tokenize(sentence)
     sentence_words = [lemmatizer.lemmatize(word) for word in sentence_words]
     return sentence_words
 
 # Converts the sentences into a bag of words
-
-
 def bag_of_words(sentence):
     sentence_words = clean_up_sentence(sentence)
     bag = [0] * len(words)
@@ -77,16 +71,6 @@ def get_response(db: Session, tag: str ):
         response_text=db_intent.response_text,
         response_links=[link.url for link in db_intent.response_links]
     )
-
-    # TODO - remove intents.json usage for model training. Use db approach
-    # tag = intents_list[0]['intent']
-    # list_of_intents = intents['intents']
-    # for i in list_of_intents:
-    #     if i['tag'] == tag:
-    #         result = random.choice(i['responses'])
-    #         break
-    # return result
-
 
 def chat(message, db: Session):
     intents_list = predict_class(message)
