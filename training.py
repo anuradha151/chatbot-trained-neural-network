@@ -21,36 +21,12 @@ from sqlalchemy.orm import Session
 def train(db: Session):
     lemmatizer = WordNetLemmatizer()
 
-    # TODO - remove intents.json usage for model training. Use db approach
-    # intents = json.loads(open('resources/intents.json').read())
-    # print("intents: ", intents['intents'])
-
     intents = find_all_intents_for_train(db)
-    # print("intents_db: ", intents_db)
 
     words = []
     classes = []
     documents = []
     ignore_letters = ['?', '!', '.', ',']
-
-    # TODO - remove intents.json usage for model training. Use db approach
-    # # Look inside the intents in the json file and through the patterns. Then,
-    # # append the words into the word list.
-    # for intent in intents['intents']:
-    #     for pattern in intent['patterns']:
-    #         # tokenize = splits up sentences into words
-    #         word_list = nltk.word_tokenize(pattern)
-    #         words.extend(word_list)
-    #         # (word_list) is a tuple. Tuple: stores multiple items into a single variable
-    #         # (word_list) belongs to the category intent['tag']
-    #         documents.append((word_list, intent['tag']))
-
-    #         # check if the class is in the classes list
-    #         if intent['tag'] not in classes:
-    #             classes.append(intent['tag'])
-
-    # # print("words: ", words[0])
-    # print("documents: ", documents[0])
 
     for intent in intents:
         for pattern in intent.patterns:
